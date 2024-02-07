@@ -32,6 +32,9 @@
 - Express.js
 - MongoDB
 
+### Deployment
+  - Heroku
+
 ## Entity Relationship Diagram (ERD)
 
 ![ERD](https://i.ibb.co/cwyzxHH/Flowchart.png)

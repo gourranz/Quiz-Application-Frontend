@@ -1,10 +1,10 @@
-import Client from './api'
+import Client from './api';
 
-export const GetQuiz = async () => {
+export const GetQuiz = async (quizType) => {
   try {
-    const res = await Client.get('/quiz')
-    return res.data
+    const res = await Client.get(`/quiz/${quizType}`);
+    return res.data;
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};

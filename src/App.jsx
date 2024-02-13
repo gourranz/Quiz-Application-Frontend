@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import './App.css';
 import { CheckSession } from './services/Auth.js';
 import Quiz from './pages/QuizList.jsx'
+import ResultsPage from './pages/ResultsPage.jsx';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -44,6 +45,7 @@ const App = () => {
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/quiz" element={<Quiz />} />
+          <Route path="/results" element={<ResultsPage />} />
         </Routes>
       </main>
     </div>

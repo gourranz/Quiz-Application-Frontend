@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GetQuiz } from '../services/QuizServices';
 import { useNavigate } from 'react-router-dom';
 
 const QuizList = ({ user }) => {
   const navigate = useNavigate();
   const [quizzes, setQuizzes] = useState([]);
-  const [selectedType, setSelectedType] = useState(''); 
-  const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [selectedType, setSelectedType] = useState('');
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
 
   useEffect(() => {
     if (selectedType) {
@@ -15,8 +15,8 @@ const QuizList = ({ user }) => {
           const data = await GetQuiz(selectedType);
           if (data.results && Array.isArray(data.results)) {
             setQuizzes(data.results);
-            // Reset selected answers when fetching new quizzes
-            setSelectedAnswers({});
+            // Initialize selectedAnswers with empty strings for each question
+            setSelectedAnswers(Array(data.results.length).fill(''));
           } else {
             console.error('Invalid quiz data format:', data);
           }
@@ -32,11 +32,18 @@ const QuizList = ({ user }) => {
     setSelectedType(event.target.value);
   };
 
-  const handleAnswerChange = (questionId, answer) => {
-    setSelectedAnswers((prevAnswers) => ({
-      ...prevAnswers,
-      [questionId]: answer,
-    }));
+  const handleAnswerChange = (index, answer) => {
+    setSelectedAnswers((prevAnswers) => {
+      const newAnswers = [...prevAnswers];
+      newAnswers[index] = answer;
+      return newAnswers;
+    });
+  };
+
+  const handleSubmit = () => {
+    // Ensure selectedAnswers is correct here
+    console.log('Submitting Answers:', selectedAnswers);
+    navigate('/results', { state: { selectedAnswers } });
   };
 
   return (
@@ -52,32 +59,55 @@ const QuizList = ({ user }) => {
         <option value="animals">Animals</option>
         <option value="computerscience">Computer-Science</option>
         <option value="scienceNature">Science-Nature</option>
-        
       </select>
+
       <h2>Quizzes</h2>
       {quizzes.length === 0 ? (
         <p>No quizzes available.</p>
       ) : (
-        <ul>
-          {quizzes.map((quiz) => (
-            <li key={quiz._id}>
-              <strong>Question:</strong> {quiz.question}
-              <br />
+        <form>
+          {quizzes.map((quiz, index) => (
+            <fieldset key={index}>
+              <legend>
+                <strong>Question:</strong> {quiz.question}
+              </legend>
               <strong>Category:</strong> {quiz.category}
               <br />
               <strong>Difficulty:</strong> {quiz.difficulty}
               <br />
               <strong>Choices:</strong>
               <ul>
-                {quiz.incorrect_answers.map((choice, index) => (
-                  <li key={index}>{choice}</li>
-                  ))}
-                  <li > {quiz.correct_answer} </li>
+                {quiz.incorrect_answers.map((choice, choiceIndex) => (
+                  <li key={choiceIndex}>
+                    <input
+                      type="radio"
+                      id={`${index}_${choiceIndex}`}
+                      name={`question_${index}`}
+                      value={choice}
+                      onChange={() => handleAnswerChange(index, choice)}
+                      checked={selectedAnswers[index] === choice}
+                    />
+                    <label htmlFor={`${index}_${choiceIndex}`}>{choice}</label>
+                  </li>
+                ))}
+                <li>
+                  <input
+                    type="radio"
+                    id={`${index}_correct`}
+                    name={`question_${index}`}
+                    value={quiz.correct_answer}
+                    onChange={() => handleAnswerChange(index, quiz.correct_answer)}
+                    checked={selectedAnswers[index] === quiz.correct_answer}
+                  />
+                  <label htmlFor={`${index}_correct`}>{quiz.correct_answer}</label>
+                </li>
               </ul>
-            </li>
+            </fieldset>
           ))}
-        </ul>
+        </form>
       )}
+
+      <button onClick={handleSubmit}>Submit Answers</button>
     </div>
   );
 };

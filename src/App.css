@@ -193,3 +193,101 @@ form button:disabled {
   align-items: center;
   height: 80vh;
 }
+
+.results-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.results-heading {
+  color: #333;
+}
+
+.total-score {
+  font-size: 18px;
+  font-weight: bold;
+  color: #27ae60;
+}
+
+.results-list {
+  list-style: none;
+  padding: 0;
+}
+
+.result-item {
+  margin: 15px 0;
+}
+
+.selected-answer {
+  color: #3498db;
+}
+
+.points {
+  color: #e74c3c;
+}
+
+.no-results {
+  color: #888;
+}
+
+/* QuizList.css */
+
+/* QuizList.css */
+
+.quiz-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.quiz-form {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-question {
+  margin-bottom: 15px;
+}
+
+.quiz-choices {
+  list-style: none;
+  padding: 0;
+}
+
+.quiz-choice {
+  margin-bottom: 10px;
+}
+
+.quiz-choice input {
+  margin-right: 10px;
+}
+
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.submit-button:disabled {
+  background-color: #b5cce2;
+  cursor: not-allowed;
+}

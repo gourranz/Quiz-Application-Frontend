@@ -1,21 +1,36 @@
-// ResultsPage.jsx
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import '../App.css'; 
 
-const ResultsPage = ({ location }) => {
-  const selectedAnswers = location?.state?.selectedAnswers || [];
+const ResultsPage = () => {
+  const location = useLocation();
+  const selectedAnswers = location.state?.selectedAnswers || [];
+  const scores = location.state?.newScores || [];
 
-  useEffect(() => {
-    console.log('Selected Answers:', selectedAnswers);
-  }, [selectedAnswers]);
+  // Calculate total score
+  const totalScore = scores.reduce((accumulator, currentScore) => accumulator + currentScore, 0);
 
   return (
-    <div>
-      <h2>Results Page</h2>
-      <ul>
-        {selectedAnswers.map((answer, index) => (
-          <li key={index}>{`Question ${index + 1}: ${answer}`}</li>
-        ))}
-      </ul>
+    <div className="results-container">
+      <h2 className="results-heading">Results</h2>
+      {selectedAnswers.length > 0 ? (
+        <div>
+          <p className="total-score">Total Score: {totalScore}</p>
+          <ul className="results-list">
+            {selectedAnswers.map((answer, index) => (
+              <li key={index} className="result-item">
+                <strong>Question {index + 1}:</strong>
+                <br />
+                <span className="selected-answer">Selected Answer: {answer}</span>
+                <br />
+                <span className="points">Points: {scores[index]}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <p className="no-results">No results available.</p>
+      )}
     </div>
   );
 };

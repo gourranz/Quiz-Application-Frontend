@@ -1,29 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { GetQuiz } from '../services/QuizServices';
 import { useNavigate } from 'react-router-dom';
+import '../App.css'
 
 const QuizList = ({ user }) => {
   const navigate = useNavigate();
   const [quizzes, setQuizzes] = useState([]);
   const [selectedType, setSelectedType] = useState('');
   const [selectedAnswers, setSelectedAnswers] = useState([]);
+  const [scores, setScores] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (selectedType) {
       const handleQuiz = async () => {
         try {
+          setLoading(true);
+          setError(null);
+
           const data = await GetQuiz(selectedType);
+
           if (data.results && Array.isArray(data.results)) {
             setQuizzes(data.results);
-            // Initialize selectedAnswers with empty strings for each question
+            // Initialize selectedAnswers and scores
             setSelectedAnswers(Array(data.results.length).fill(''));
+            setScores(Array(data.results.length).fill(0));
           } else {
             console.error('Invalid quiz data format:', data);
           }
         } catch (error) {
           console.error('Error fetching quizzes:', error.message);
+          setError('Failed to fetch quizzes. Please try again.');
+        } finally {
+          setLoading(false);
         }
       };
+
       handleQuiz();
     }
   }, [selectedType]);
@@ -41,15 +54,24 @@ const QuizList = ({ user }) => {
   };
 
   const handleSubmit = () => {
-    // Ensure selectedAnswers is correct here
-    console.log('Submitting Answers:', selectedAnswers);
-    navigate('/results', { state: { selectedAnswers } });
+    // Calculate scores
+    const newScores = quizzes.map((quiz, index) => {
+      return selectedAnswers[index] === quiz.correct_answer ? 10 : 0;
+    });
+    setScores(newScores);
+
+    // Navigate to the results page
+    navigate('/results', { state: { selectedAnswers, newScores } });
   };
 
   return (
-    <div>
+    <div className="quiz-container">
       <h2>Choose Quiz Type:</h2>
-      <select value={selectedType} onChange={handleTypeChange}>
+      <select
+        className="quiz-select"
+        value={selectedType}
+        onChange={handleTypeChange}
+      >
         <option value="">Select a type</option>
         <option value="geography">Geography</option>
         <option value="history">History</option>
@@ -62,20 +84,20 @@ const QuizList = ({ user }) => {
       </select>
 
       <h2>Quizzes</h2>
-      {quizzes.length === 0 ? (
-        <p>No quizzes available.</p>
-      ) : (
-        <form>
+      {loading && <p>Loading quizzes...</p>}
+      {error && <p className="error-message">Error: {error}</p>}
+      {!loading && quizzes.length === 0 && <p>No quizzes available.</p>}
+      {!loading && quizzes.length > 0 && (
+        <form className="quiz-form">
           {quizzes.map((quiz, index) => (
             <fieldset key={index}>
               <legend>
                 <strong>Question:</strong> {quiz.question}
+                <strong> Points: 10</strong>
               </legend>
-              <strong>Category:</strong> {quiz.category}
-              <br />
-              <strong>Difficulty:</strong> {quiz.difficulty}
-              <br />
+              
               <strong>Choices:</strong>
+              
               <ul>
                 {quiz.incorrect_answers.map((choice, choiceIndex) => (
                   <li key={choiceIndex}>
@@ -107,7 +129,13 @@ const QuizList = ({ user }) => {
         </form>
       )}
 
-      <button onClick={handleSubmit}>Submit Answers</button>
+<button
+        onClick={handleSubmit}
+        disabled={loading}
+        className="submit-button"
+      >
+        {loading ? 'Submitting...' : 'Submit Answers'}
+      </button>
     </div>
   );
 };

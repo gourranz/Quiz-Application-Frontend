@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { GetQuiz } from '../services/QuizServices';
 import { useNavigate } from 'react-router-dom';
 import '../App.css'
+import { SaveScore } from '../services/ScoreServices';
+
 
 const QuizList = ({ user }) => {
   const navigate = useNavigate();
@@ -11,6 +13,7 @@ const QuizList = ({ user }) => {
   const [scores, setScores] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const userId = user.id;
 
   useEffect(() => {
     if (selectedType) {
@@ -53,12 +56,13 @@ const QuizList = ({ user }) => {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Calculate scores
     const newScores = quizzes.map((quiz, index) => {
       return selectedAnswers[index] === quiz.correct_answer ? 10 : 0;
     });
     setScores(newScores);
+   await SaveScore(userId, newScores,selectedType);
 
     // Navigate to the results page
     navigate('/results', { state: { selectedAnswers, newScores } });

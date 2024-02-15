@@ -8,6 +8,7 @@ import './App.css';
 import { CheckSession } from './services/Auth.js';
 import Quiz from './pages/QuizList.jsx'
 import ResultsPage from './pages/ResultsPage.jsx';
+import MyScores from './pages/MyScores.jsx';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -44,8 +45,9 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/quiz" element={<Quiz />} />
+          <Route path="/quiz" element={<Quiz user = {user} />} />
           <Route path="/results" element={<ResultsPage />} />
+          <Route path = "/MyScores" element = {<MyScores user={user} />} />
         </Routes>
       </main>
     </div>

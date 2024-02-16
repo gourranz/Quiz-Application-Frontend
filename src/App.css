@@ -9,10 +9,16 @@
 }
 
 body {
-  font-family: 'Open Sans', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: var(--secondary-bg);
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4; /* Light gray background color */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 button {
@@ -99,7 +105,6 @@ main {
 }
 
 .card-overlay {
-  /* border: 2px solid var(--primary-button-hover); */
   width: 60%;
   padding: 1em;
   border-radius: 8px;
@@ -234,10 +239,6 @@ form button:disabled {
   color: #888;
 }
 
-/* QuizList.css */
-
-/* QuizList.css */
-
 .quiz-container {
   max-width: 600px;
   margin: auto;
@@ -293,16 +294,17 @@ form button:disabled {
 }
 
 .my-scores-container {
+  margin: 20px;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  max-width: 400px;
-  margin: auto;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .my-scores-header {
-  text-align: center;
-  margin-bottom: 20px;
+  font-size: 24px;
+  margin-bottom: 10px;
 }
 
 .my-scores-list {
@@ -311,8 +313,72 @@ form button:disabled {
 }
 
 .my-scores-item {
-  margin-bottom: 15px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
   padding: 10px;
-  background: #f9f9f9;
-  border-radius: 5px;
+}
+
+.my-scores-item strong {
+  color: #333;
+}
+
+.my-scores-item button {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.my-scores-item button:hover {
+  background-color: #c0392b;
+}
+.app-header {
+  background-color: #4CAF50; /* Green color, you can adjust it based on your theme */
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  width: 50px;
+  height: auto;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.user-nav {
+  display: flex;
+  align-items: center;
+}
+
+.user-nav h3 {
+  margin-right: 20px;
+  color: #fff; /* White color for user information */
+}
+
+.user-nav a {
+  color: #fff; /* White color for user navigation links */
+}
+
+.public-nav {
+  display: flex;
+  align-items: center;
+}
+
+.public-nav a {
+  color: #fff; /* White color for public navigation links */
 }

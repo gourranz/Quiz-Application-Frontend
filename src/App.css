@@ -13,6 +13,10 @@ body {
   padding: 0;
   font-family: 'Arial', sans-serif;
   background-color: #f4f4f4; /* Light gray background color */
+  background-image: url('https://i.ibb.co/rckSNdH/126.jpg');
+  background-size: cover;
+  background-position: center;
+
 }
 
 .container {
@@ -381,4 +385,11 @@ nav a {
 
 .public-nav a {
   color: #fff; /* White color for public navigation links */
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+
 }
